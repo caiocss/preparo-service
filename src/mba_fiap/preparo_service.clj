@@ -1,12 +1,19 @@
 (ns mba-fiap.preparo-service
-  (:gen-class))
 
-(defn greet
-  "Callable entry point to the application."
-  [data]
-  (println (str "Hello, " (or (:name data) "World") "!")))
+(defn prep-config
+  [profile]
+  (let [config-map (read-config profile)]
+    (ig/load-namespaces config-map)
+    (ig/prep config-map)))
+
+(defn start-app
+  [profile]
+  (log/start-publisher! {:type :console})
+  (-> (prep-config profile)
+      (ig/init)))
 
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
-  (greet {:name (first args)}))
+  (let [profile (or (some-> args first keyword) :prod)]
+    (println "Running, profile: " profile)
+    (start-app profile)))

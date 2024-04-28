@@ -1,0 +1,34 @@
+{:mba-fiap.datasource.postgres/db
+ {:spec {:dbtype "postgresql"
+         :classname "org.postgresql.Driver"
+         :auto-commit true
+         :read-only false
+         :subprotocol "postgresql"
+         :user #or [#env POSTGRES_USER "postgres"]
+         :password #or [#env POSTGRES_PASSWORD "password"]
+         :host #or [#env POSTGRES_HOST "localhost"]
+         :port #profile {:default #or [#env POSTGRES_PORT 5400]}}}
+
+ :mba-fiap.aws.sqs/sqs
+ {:access-key #env AWS_ACCESS_KEY
+  :secret-key #env AWS_SECRET_KEY
+  :region #or [#env AWS_REGION "us-east-1"]
+  :endpoint #or [#env SQS_ENDPOINT "http://localhost:4576"]}
+ 
+ :mba-fiap.datasource.migratus/migratus
+ {:store :database
+  :migration-dir "migrations/"
+  :init-in-transaction? false
+  :migration-table-name "app_migrations"
+  :db {:datasource #ig/ref :mba-fiap.datasource.postgres/db}}
+
+ :mba-fiap.adapter.http.server/server
+ {:env #profile {:default :dev
+                 :test :test
+                 :prod :prod}
+  :port #long #profile {:default #or [#env HTTP_PORT 8080]}
+  :join? #profile {:default true
+                   :dev false}
+
+  :app-context {:migrations #ig/ref :mba-fiap.datasource.migratus/migratus
+                :sqs #ig/ref :mba-fiap.aws/sqs}}}
