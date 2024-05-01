@@ -10,11 +10,8 @@
          :port #profile {:default #or [#env POSTGRES_PORT 5400]}}}
 
  :mba-fiap.aws.sqs/sqs
- {:access-key #env AWS_ACCESS_KEY
-  :secret-key #env AWS_SECRET_KEY
-  :region #or [#env AWS_REGION "us-east-1"]
-  :endpoint #or [#env SQS_ENDPOINT "http://localhost:4576"]}
- 
+ {:region #or [#env AWS_REGION "us-east-1"]}
+
  :mba-fiap.datasource.migratus/migratus
  {:store :database
   :migration-dir "migrations/"

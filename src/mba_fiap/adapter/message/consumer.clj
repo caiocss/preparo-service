@@ -3,7 +3,7 @@
 
 
 (defn handler-pedido-pago [message]
-  (println "Pedido recebido: " message))
+  (println "Pedido pronto para iniciar preparo: " message))
 
 
 (def queues-and-handlers
