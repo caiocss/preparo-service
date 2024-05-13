@@ -9,8 +9,9 @@
          :host #or [#env POSTGRES_HOST "localhost"]
          :port #profile {:default #or [#env POSTGRES_PORT 5400]}}}
 
- :mba-fiap.aws.sqs/sqs
- {:region #or [#env AWS_REGION "us-east-1"]}
+ :mba-fiap.adapter.nats/nats {:app-name "preparo-service"
+                              :url "nats://localhost:4222"
+                              :subjects-handlers {"pedido-pago" #ig/ref :mba-fiap.adapter.message.consumer/process-pedido-pago}}
 
  :mba-fiap.datasource.migratus/migratus
  {:store :database
@@ -28,4 +29,4 @@
                    :dev false}
 
   :app-context {:migrations #ig/ref :mba-fiap.datasource.migratus/migratus
-                :sqs #ig/ref :mba-fiap.aws/sqs}}}
+                :nats-client #ig/ref :mba-fiap.adapter.nats/nats}}}
