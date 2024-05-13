@@ -1,4 +1,21 @@
 (ns mba-fiap.preparo-service
+  (:gen-class)
+  (:require
+    [aero.core :as aero]
+    [clojure.java.io :as io]
+    [com.brunobonacci.mulog :as log]
+    [integrant.core :as ig]))
+
+
+(def ^:const system-filename "config.edn")
+
+(defmethod aero.core/reader 'ig/ref
+  [{:keys [profile] :as opts} _tag value]
+  (integrant.core/ref value))
+
+(defn read-config
+  [profile]
+  (aero/read-config (io/resource system-filename) {:profile profile}))
 
 (defn prep-config
   [profile]
