@@ -25,6 +25,8 @@
           :exec-args {:name "Clojure"}}
   :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}}
           :ns-default build}
+  :dev {:extra-paths ["dev"]
+        :extra-deps {hato/hato {:mvn/version "0.9.0"}}}
   :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}
                       io.github.cognitect-labs/test-runner
