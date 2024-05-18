@@ -1,7 +1,8 @@
 (ns mba-fiap.datasource.preparo
-  (:require [honey.sql :as hs]
-            [next.jdbc :as jdbc]
-            [mba-fiap.repository.repository :as repository]))
+  (:require
+    [honey.sql :as hs]
+    [next.jdbc :as jdbc]
+    [mba-fiap.repository.repository :as repository]))
 
 
 (defrecord PreparoDatasource

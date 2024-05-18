@@ -10,22 +10,9 @@
    :headers {"Content-Type" "application/json"}
    :body {:message "Service is up and running"}})
 
-(defn test-publish-and-consumer
-  [request]
-  (let [nats (get-in request [:app-context :nats])
-        msg {:message "Init Test message"}
-        return (nats/publish nats "pedido.novo-preparo" (str msg))]
-    {:status 200
-     :headers {"Content-Type" "application/json"}
-     :body {:message (str "Message published " return)}}))
-
 (defn preparo-routes
   []
   [["/healthcheck" ^:interceptors [(body-params/body-params)
                                     middlewares/params
                                     middlewares/keyword-params]
-    {:get `health-check}]
-   ["/test" ^:interceptors [(body-params/body-params)
-                                    middlewares/params
-                                    middlewares/keyword-params]
-    {:get `test-publish-and-consumer}]])
+    {:get `health-check}]])

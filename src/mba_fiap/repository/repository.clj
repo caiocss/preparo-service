@@ -1,7 +1,7 @@
 (ns mba-fiap.repository.repository
+  (:gen-class)
   (:require [com.brunobonacci.mulog :as log]
             [integrant.core :as ig]))
-
 
 (defprotocol Repository
   (criar [this data])

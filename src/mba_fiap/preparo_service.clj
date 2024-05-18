@@ -5,6 +5,7 @@
     [clojure.java.io :as io]
     [com.brunobonacci.mulog :as log]
     [integrant.core :as ig]
+    [mba-fiap.repository.repository]
     [mba-fiap.datasource.preparo]
     [mba-fiap.adapter.nats]))
 
