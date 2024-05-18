@@ -7,22 +7,29 @@
          :user #or [#env POSTGRES_USER "postgres"]
          :password #or [#env POSTGRES_PASSWORD "password"]
          :host #or [#env POSTGRES_HOST "localhost"]
-         :port #profile {:default #or [#env POSTGRES_PORT 5400]}}}
+         :port #profile {:default #or [#env POSTGRES_PORT 5432]}}}
 
  :mba-fiap.datasource.migratus/migratus
  {:store                :database
   :migration-dir        "migrations/"
   :init-in-transaction? false
+  :reset-on-init?       #profile{:dev     true
+                                 :test    true
+                                 :default false}
   :migration-table-name "app_migrations"
   :db                   {:datasource #ig/ref :mba-fiap.datasource.postgres/db}}
 
- :mba-fiap.adapter.nats/nats
+ [:mba-fiap.adapter.nats/nats :nats/nats]
  {:app-name          "preparo-service"
   :url               #or [#env NATS_URL "nats://66.51.121.86:4222"]
-  :subjects-handlers {"lanchonete.preparar-pedido" #ig/ref :consumer/preparar-pedido}}
+  :subjects-handlers {"pedido.novo-preparo" #ig/ref :consumer/novo-preparo
+                      "pedido.*"            #ig/ref :consumer/testing}}
 
- [:mba-fiap.adapter.message.consumer/preparar-pedido :consumer/preparar-pedido]
+ [:mba-fiap.adapter.message.consumer/novo-preparo :consumer/novo-preparo]
  {:repository/preparo #ig/ref :repository/preparo}
+
+ [:mba-fiap.adapter.message.consumer/test :consumer/testing]
+ {}
 
  [:mba-fiap.repository.repository/repository :repository/preparo]
  {:repository-name :preparo
@@ -34,8 +41,9 @@
                          :prod    :prod}
   :port        #long #profile {:default #or [#env HTTP_PORT 8080]}
   :join?       #profile {:default true
+                         :test    false
                          :dev     false}
 
   :app-context {:migrations         #ig/ref :mba-fiap.datasource.migratus/migratus
                 :repository/preparo #ig/ref :repository/preparo
-                :nats-client        #ig/ref :mba-fiap.adapter.nats/nats}}}
+                :nats              #ig/ref :nats/nats}}}

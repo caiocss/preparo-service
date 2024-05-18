@@ -1,7 +1,18 @@
 (ns mba-fiap.preparo-service-test
   (:require [clojure.test :refer :all]
-            [mba-fiap.preparo-service :refer :all]))
+            [hato.client :as hc]
+            [mba-fiap.preparo-service :refer :all]
+            [mba-fiap.system :as system]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+
+(deftest test-main
+  (system/start-pg-container)
+  (system/system-start)
+  (Thread/sleep 4000)
+  (testing "main startup ok"
+    (let [{:keys [body status]} (hc/get "http://localhost:8080/healthcheck")]
+      (is (= 200 status))
+      (is (= "{\"message\":\"Service is up and running\"}"
+             body))))
+  (system/system-stop)
+  (system/stop-pg-container))
