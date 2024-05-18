@@ -1,27 +1,29 @@
 (ns mba-fiap.adapter.message.consumer
-  (:require [mba-fiap.adapter.nats :as nats])
-  (:import (java.nio.charset StandardCharsets)))
+  (:require
+    [clojure.edn :as edn]
+    [integrant.core :as ig]
+    [mba-fiap.service.preparo :as preparo.service]
+    [mba-fiap.use-cases.preparo :as use-cases.preparo]))
 
-(defn process-pedido-pago [msg]
+
+(defn handler-novo-preparo  [ctx nats-client msg]
   (prn "Received message on subject")
-  (let [subject (.getSubject msg)
-        data (String. (.getData msg))]
+  (tap> {:from "handler-novo-preparo"
+         :msg msg})
+  (let [repository (:repository/pedido ctx)
+        pedido (edn/read-string msg)
+        preparo (use-cases.preparo/pedido->novo-preparo pedido)
+        result (preparo.service/criar-preparo repository preparo)]
+    (.publish nats-client "pedido.status" (str result))))
 
-    ;; consume message
-    ;; validate schema
-    ;; persist in the database
-    ;; publish a message inform that the pedido is in preparation
-    (println "Received message on subject" subject "with data" data)
-    (nats/publish nats-client "pedido-em-preparacao" data)))
+(defmethod ig/init-key ::novo-preparo
+  [_ ctx]
+  (partial handler-novo-preparo ctx))
 
+(defn testing
+  [_ event]
+  (tap> {:from "testing"
+         :event event}))
 
-
-(comment
-  (with-open [c (nats/nats-client {:url               "nats://66.51.121.86:4222"
-                                   :app-name          "preparo-service"
-                                   :subjects-handlers {"preparo-service.*" #(process-pedido-pago %)}})]
-
-    (doseq [r (range 10)]
-      (Thread/sleep 200)
-      (nats/publish c "pedido-pago" "Olá")))
-  )
+(defmethod ig/init-key ::test [_ _]
+  (partial testing))
