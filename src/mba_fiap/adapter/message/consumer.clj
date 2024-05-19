@@ -15,7 +15,7 @@
           pedido (edn/read-string msg)
           preparo (use-cases.preparo/pedido->novo-preparo pedido)
           result (preparo.service/criar-preparo repository preparo)]
-      (.publish nats-client "pedido.status" (str result)))
+      (.publish nats-client "status" (str result)))
     (catch Exception e
       (prn "Error on handler-novo-preparo")
       (prn e)

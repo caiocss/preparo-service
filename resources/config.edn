@@ -22,7 +22,7 @@
  [:mba-fiap.adapter.nats/nats :nats/nats]
  {:app-name          "preparo-service"
   :url               #or [#env NATS_URL "nats://66.51.121.86:4222"]
-  :subjects-handlers {"pedido.novo-preparo" #ig/ref :consumer/novo-preparo}}
+  :subjects-handlers {#or [#env NOVO_PREPARO_TOPIC "preparo-service.*"] #ig/ref :consumer/novo-preparo}}
 
  [:mba-fiap.adapter.message.consumer/novo-preparo :consumer/novo-preparo]
  {:repository/preparo #ig/ref :repository/preparo}

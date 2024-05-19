@@ -38,7 +38,8 @@
   {:scene/step "I should publish preparo with status em preparo to pedido.status subscription"}
   [preparo]
   (let [nats-client (get @system/system-state [:mba-fiap.adapter.nats/nats :nats/nats])]
-    (nats/publish nats-client "pedido.status" (str preparo))))
+    (nats/publish nats-client "pedido.status" (str preparo)))
+  preparo)
 
 
 (defn run-cucumber []
