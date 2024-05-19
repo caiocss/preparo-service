@@ -2,28 +2,25 @@
   (:require
     [clojure.edn :as edn]
     [integrant.core :as ig]
+    [mba-fiap.base.validation :as validation]
     [mba-fiap.service.preparo :as preparo.service]
+    [mba-fiap.model.pedido :as pedido]
     [mba-fiap.use-cases.preparo :as use-cases.preparo]))
 
-
-(defn handler-novo-preparo  [ctx nats-client msg]
-  (prn "Received message on subject")
-  (tap> {:from "handler-novo-preparo"
-         :msg msg})
-  (let [repository (:repository/pedido ctx)
-        pedido (edn/read-string msg)
-        preparo (use-cases.preparo/pedido->novo-preparo pedido)
-        result (preparo.service/criar-preparo repository preparo)]
-    (.publish nats-client "pedido.status" (str result))))
+(defn handler-novo-preparo
+  [ctx nats-client msg]
+  {:pre [(validation/schema-check pedido/Pedido (edn/read-string msg))]}
+  (try
+    (let [repository (:repository/preparo ctx)
+          pedido (edn/read-string msg)
+          preparo (use-cases.preparo/pedido->novo-preparo pedido)
+          result (preparo.service/criar-preparo repository preparo)]
+      (.publish nats-client "pedido.status" (str result)))
+    (catch Exception e
+      (prn "Error on handler-novo-preparo")
+      (prn e)
+      (throw e))))
 
 (defmethod ig/init-key ::novo-preparo
   [_ ctx]
   (partial handler-novo-preparo ctx))
-
-(defn testing
-  [_ event]
-  (tap> {:from "testing"
-         :event event}))
-
-(defmethod ig/init-key ::test [_ _]
-  (partial testing))

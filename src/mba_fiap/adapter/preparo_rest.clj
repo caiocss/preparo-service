@@ -1,8 +1,7 @@
 (ns mba-fiap.adapter.preparo-rest
   (:require
     [io.pedestal.http.body-params :as body-params]
-    [io.pedestal.http.ring-middlewares :as middlewares]
-    [mba-fiap.adapter.nats :as nats]))
+    [io.pedestal.http.ring-middlewares :as middlewares]))
 
 (defn health-check
   [_]

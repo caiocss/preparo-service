@@ -46,3 +46,6 @@
     (println "\nBuilding JAR...")
     (b/uber opts))
   opts)
+
+
+(println "Classpath:" (System/getProperty "java.class.path"))

@@ -1,8 +1,10 @@
 (ns mba-fiap.adapter.nats
-  (:require [integrant.core :as ig])
-  (:import (io.nats.client Message MessageHandler Nats Options Connection$Status)
-           (java.io Closeable)
-           (java.nio.charset StandardCharsets)))
+  (:require
+    [integrant.core :as ig])
+  (:import
+    (io.nats.client Message MessageHandler Nats Options Connection$Status)
+    (java.io Closeable)
+    (java.nio.charset StandardCharsets)))
 
 (defprotocol INATSClient
   (publish [_ subject msg]))

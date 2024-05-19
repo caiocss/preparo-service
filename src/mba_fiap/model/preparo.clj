@@ -24,4 +24,4 @@
    [:produtos Produtos]
    [:numero-do-pedido string?]
    [:status Status]
-   [:created-at string?]])
+   [:created-at {:optional true} string?]])

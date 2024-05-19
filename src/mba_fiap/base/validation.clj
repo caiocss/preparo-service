@@ -4,9 +4,7 @@
     [malli.error :as me]
     [malli.util :as mu])
   (:import
-    (clojure.lang
-      ExceptionInfo)))
-
+    (clojure.lang ExceptionInfo)))
 
 (defn business-error?
   [x]

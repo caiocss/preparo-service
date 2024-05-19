@@ -3,16 +3,13 @@
     [mba-fiap.base.validation :as validation]
     [mba-fiap.model.preparo :as preparo])
   (:import
-    (mba_fiap.repository.repository
-      Repository)))
+    (mba_fiap.repository.repository Repository)))
 
 (defn array->vector
   [a]
   (if (coll? a)
     a
     (into [] (.getArray a))))
-
-
 
 (defn ^:private ->preparo
   [{:preparo/keys [id id_cliente numero_do_pedido produtos status created_at]}]

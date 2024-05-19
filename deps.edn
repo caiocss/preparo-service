@@ -26,7 +26,7 @@
         :extra-deps {hato/hato {:mvn/version "0.9.0"}
                      io.github.clojure/tools.build {:mvn/version "0.9.4"}
                      djblue/portal {:mvn/version "0.48.0"}}}
-  :test {:extra-paths ["test" "resources"]
+  :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check                  {:mvn/version "1.1.1"}
                       eftest/eftest                           {:mvn/version "0.5.9"}
                       fundingcircle/jukebox                   {:mvn/version "1.0.6"}

@@ -5,13 +5,11 @@
   [:vector {:min 1 :max 3}
    uuid?])
 
-
 (def recebido "recebido")
 (def aguardando-pagamento "aguardando pagamento")
 (def em-preparo "em preparo")
 (def pronto "pronto")
 (def finalizado "finalizado")
-
 
 (def Status
   [:enum
@@ -20,7 +18,6 @@
    em-preparo
    pronto
    finalizado])
-
 
 (def Pedido
   [:map

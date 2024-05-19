@@ -23,8 +23,6 @@
   (tc/stop! @db-state)
   (reset! db-state ::not-initialized))
 
-
-
 (defonce system-state (atom ::not-initialized))
 
 (defn system-start []

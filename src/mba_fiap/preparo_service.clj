@@ -5,9 +5,10 @@
     [clojure.java.io :as io]
     [com.brunobonacci.mulog :as log]
     [integrant.core :as ig]
-    [mba-fiap.repository.repository]
     [mba-fiap.datasource.preparo]
-    [mba-fiap.adapter.nats]))
+    [mba-fiap.adapter.nats])
+  (:import
+    (mba_fiap.repository.repository Repository)))
 
 
 (def ^:const system-filename "config.edn")

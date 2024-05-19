@@ -6,9 +6,10 @@
     [mba-fiap.service.preparo :as preparo.service]
     [clojure.test.check.properties :as prop]
     [mba-fiap.model.preparo :as preparo]
+    [mba-fiap.repository.repository]
     [clojure.test.check.clojure-test :refer [defspec]])
   (:import
-    [mba_fiap.repository.repository Repository]))
+    (mba_fiap.repository.repository Repository)))
 
 (defn keyword-to-namespaced-keyword [namespace m]
   (walk/postwalk
@@ -35,13 +36,13 @@
   (let [preparo-schema [:vector {:min 1} preparo/Preparo]]
     (mg/generator preparo-schema)))
 
-(defspec all-valid-preparos-inserted 2
+(defspec all-valid-preparos-inserted 10
   (prop/for-all [preparo (mg/generator preparo/Preparo)]
     (let [store (atom {})
           repository (mock-repository store)]
       (boolean (preparo.service/criar-preparo repository preparo)))))
 
-(defspec listar-preparos-test 1
+(defspec listar-preparos-test 10
   (prop/for-all [preparos (gen-preparos)]
     (let [store (atom (mapv #(keyword-to-namespaced-keyword "preparo" %) preparos))
           repository (mock-repository store)]
