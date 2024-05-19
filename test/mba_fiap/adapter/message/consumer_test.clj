@@ -46,13 +46,13 @@
           nats-messages (atom {})]
       (handler-novo-preparo {:repository/preparo (mock-repository store)} (mock-nats nats-messages) (str pedido))
       (and (= (:id-cliente pedido)
-              (:id-cliente (edn/read-string (first (get @nats-messages "pedido.status")))))
+              (:id-cliente (edn/read-string (first (get @nats-messages "status")))))
            (= (:numero-do-pedido pedido)
-              (:numero-do-pedido (edn/read-string (first (get @nats-messages "pedido.status")))))
+              (:numero-do-pedido (edn/read-string (first (get @nats-messages "status")))))
            (= (:produtos pedido)
-              (:produtos (edn/read-string (first (get @nats-messages "pedido.status")))))
+              (:produtos (edn/read-string (first (get @nats-messages "status")))))
            (= "em-preparo"
-              (:status (edn/read-string (first (get @nats-messages "pedido.status")))))))))
+              (:status (edn/read-string (first (get @nats-messages "status")))))))))
 
 (defspec handler-novo-preparo-error-test 10
   (prop/for-all [pedido (mg/generator pedido/Pedido)]
