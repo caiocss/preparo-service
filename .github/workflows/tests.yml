@@ -36,15 +36,14 @@ jobs:
           token: ${{ secrets.TC_CLOUD_TOKEN }}
           wait: true
 
-
       - name: Execute build
         run: clojure -T:build ci
 
       - name: Execute BDD (cucumber)
         run: clojure -M:test:cucumber -g ./test/mba_fiap/ ./test/resources/
 
-      - name: Execute tests
-        run: clojure -X:test
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
 
       # (Optionally) When you don't need Testcontainers anymore, you could terminate sessions eagerly
       - name: Terminate Testcontainers Cloud Client active sessions

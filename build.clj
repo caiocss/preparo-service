@@ -13,22 +13,25 @@
       "Run all the tests."
       [opts]
       (println "\nRunning tests...")
-      (let [basis    (b/create-basis {:aliases [:test]})
+      (let [basis (b/create-basis {:aliases [:test]})
             combined (t/combine-aliases basis [:test])
-            cmds     (b/java-command
-                       {:basis basis
-                        :java-opts (:jvm-opts combined)
-                        :main      'clojure.main
-                        :main-args ["-m"
-                                    "cloverage.coverage"
-                                    "--test-ns-path" "test"
-                                    "--src-ns-path" "src"
-                                    "--runner" "eftest"]})
+            cmds (b/java-command
+                   {:basis     basis
+                    :java-opts (:jvm-opts combined)
+                    :main      'clojure.main
+                    :main-args ["-m"
+                                "cloverage.coverage"
+                                "--codecov"
+                                "--lcov"
+                                "--no-html"
+                                "--test-ns-path" "test"
+                                "--src-ns-path" "src"]})
             {:keys [exit]} (b/process cmds)]
            (when-not (zero? exit) (throw (ex-info "Tests failed" {}))))
       opts)
 
-(defn- uber-opts [opts]
+(defn- uber-opts
+       [opts]
        (assoc opts
               :lib lib :main main
               :uber-file (format "target/%s-%s.jar" lib version)
@@ -37,8 +40,9 @@
               :src-dirs ["src"]
               :ns-compile [main]))
 
-(defn ci "Run the CI pipeline of tests (and build the uberjar)." [opts]
-
+(defn ci
+      "Run the CI pipeline of tests (and build the uberjar)."
+      [opts]
       (b/delete {:path "target"})
       (let [opts (uber-opts opts)]
            (println "\nCopying source...")
@@ -47,6 +51,9 @@
            (b/compile-clj opts)
            (println "\nBuilding JAR...")
            (b/uber opts)
+           (when-not
+             (:skip-tests opts)
+             (test opts))
            (when (:bdd opts)
                  (println "\nRunning Cucumber tests...\n"
                           (sh/sh "clojure" "-M:test:cucumber" "-g" "./test/mba_fiap/" "./test/resources/"))))
