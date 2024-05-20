@@ -4,7 +4,7 @@ services:
     restart: always
     container_name: preparo-postgres
     ports:
-      - "5401:5432"
+      - "5400:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password

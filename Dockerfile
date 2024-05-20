@@ -1,4 +1,4 @@
-FROM clojure:temurin-17-alpine AS builder
+FROM clojure:temurin-22-tools-deps-bullseye-slim AS builder
 ENV CLOJURE_VERSION=1.11.1.1182
 RUN mkdir -p /build
 WORKDIR /build
@@ -6,7 +6,7 @@ COPY ./ /build/
 
 RUN clojure -T:build ci :skip-tests true
 
-FROM eclipse-temurin:21-alpine AS runner
+FROM eclipse-temurin:17-alpine AS runner
 RUN addgroup -S preparo-service && adduser -S preparo-service -G preparo-service
 RUN mkdir -p /service && chown -R preparo-service. /service
 USER preparo-service

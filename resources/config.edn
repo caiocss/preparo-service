@@ -16,8 +16,10 @@
   :reset-on-init?       #profile{:dev     true
                                  :test    true
                                  :default false}
-  :migration-table-name "app_migrations"
-  :db                   {:datasource #ig/ref :mba-fiap.datasource.postgres/db}}
+  :migration-table-name "migrations"
+  :properties           {:map {:migratus {:database #or [#env POSTGRES_DB "postgres"]}}}
+  :db                   {:dbname     #or [#env POSTGRES_DB "postgres"]
+                         :datasource #ig/ref :mba-fiap.datasource.postgres/db}}
 
  [:mba-fiap.adapter.nats/nats :nats/nats]
  {:app-name          "preparo-service"
