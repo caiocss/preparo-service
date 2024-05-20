@@ -9,7 +9,6 @@
 
 (defn handler-novo-preparo
   [ctx nats-client msg]
-  {:pre [(validation/schema-check pedido/Pedido (edn/read-string msg))]}
   (try
     (let [repository (:repository/preparo ctx)
           pedido (edn/read-string msg)
