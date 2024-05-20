@@ -21,6 +21,7 @@
 
 (def Pedido
   [:map
+   [:id uuid?]
    [:id-cliente uuid?]
    [:produtos Produtos]
    [:numero-do-pedido string?]

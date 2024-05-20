@@ -12,8 +12,9 @@
     (into [] (.getArray a))))
 
 (defn ^:private ->preparo
-  [{:preparo/keys [id id_cliente numero_do_pedido produtos status created_at]}]
+  [{:preparo/keys [id id_pedido id_cliente numero_do_pedido produtos status created_at]}]
   {:id id
+   :id-pedido id_pedido
    :id-cliente id_cliente
    :numero-do-pedido numero_do_pedido
    :produtos (array->vector produtos)
@@ -25,8 +26,9 @@
   [^Repository repository preparo]
   {:pre [(instance? Repository repository)
          (validation/schema-check preparo/Preparo preparo)]}
-  (let [[{:preparo/keys [id id_cliente numero_do_pedido produtos status]}] (.criar repository preparo)]
+  (let [[{:preparo/keys [id id_pedido id_cliente numero_do_pedido produtos status]}] (.criar repository preparo)]
     {:id id
+     :id-pedido id_pedido
      :id-cliente id_cliente
      :numero-do-pedido numero_do_pedido
      :produtos (array->vector produtos)

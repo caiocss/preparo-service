@@ -6,8 +6,9 @@
     (parse-uuid string)))
 
 (defn pedido->novo-preparo
-  [{:keys [id-cliente numero-do-pedido produtos]}]
-  {:id-cliente       (->uuid id-cliente)
+  [{:keys [id id-cliente numero-do-pedido produtos]}]
+  {:id-pedido        (->uuid id)
+   :id-cliente       (->uuid id-cliente)
    :numero-do-pedido numero-do-pedido
    :produtos         (mapv ->uuid produtos)
    :status           "em-preparo"})
