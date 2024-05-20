@@ -1,20 +1,11 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# GitHub recommends pinning actions to a commit SHA.
-# To get a newer version, you will need to update the SHA.
-# You can also reference a tag or branch, but the action may change without warning.
-
 name: build and publish docker
 
 on:
   workflow_dispatch:
   push:
-   branches:
-    - main
-  release:
+    branches:
+      - main
+  release:  
     types: [published]
 
 jobs:
@@ -30,6 +21,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: 1.11.3.1463               # Clojure CLI based on tools.deps
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
