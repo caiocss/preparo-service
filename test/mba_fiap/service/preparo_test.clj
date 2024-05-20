@@ -27,6 +27,7 @@
     (criar [data]
       (swap! store assoc (:id-cliente data) data)
       [#:preparo{:id (random-uuid)
+                :id-pedido (:id-pedido data)
                 :id-cliente (:id-cliente data)
                 :numero-do-pedido (:numero_do_pedido data)
                 :produtos (:produtos data)

@@ -20,6 +20,7 @@
 
 (def Preparo
   [:map
+   [:id-pedido uuid?]
    [:id-cliente uuid?]
    [:produtos Produtos]
    [:numero-do-pedido string?]

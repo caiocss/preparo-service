@@ -27,7 +27,8 @@
   :subjects-handlers {#or [#env NOVO_PREPARO_TOPIC "preparo-service.*"] #ig/ref :consumer/novo-preparo}}
 
  [:mba-fiap.adapter.message.consumer/novo-preparo :consumer/novo-preparo]
- {:repository/preparo #ig/ref :repository/preparo}
+ {:repository/preparo #ig/ref :repository/preparo
+  :topic/novo-status #or [#env NEW_STATUS_TOPIC "status"]}
 
  [:mba-fiap.repository.repository/repository :repository/preparo]
  {:repository-name :preparo
