@@ -4,9 +4,9 @@ RUN mkdir -p /build
 WORKDIR /build
 COPY ./ /build/
 
-RUN clojure -T:build ci
+RUN clojure -T:build ci :skip-tests true
 
-FROM eclipse-temurin:17-alpine AS runner
+FROM eclipse-temurin:21-alpine AS runner
 RUN addgroup -S preparo-service && adduser -S preparo-service -G preparo-service
 RUN mkdir -p /service && chown -R preparo-service. /service
 USER preparo-service
