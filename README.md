@@ -1,6 +1,8 @@
 # preparo-service
 
-FIXME: my new application.
+[![Coverage Status](https://coveralls.io/repos/github/caiocss/preparo-service/badge.svg?branch=main)](https://coveralls.io/github/caiocss/preparo-service?branch=main)
+
+Serviço responsável por operacionalizar o processo de produção do pedido e atualização de status de cada passo do pedido. 
 
 ## Installation
 
