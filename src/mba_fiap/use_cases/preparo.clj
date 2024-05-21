@@ -11,5 +11,5 @@
    :id-cliente       (->uuid id-cliente)
    :numero-do-pedido numero-do-pedido
    :produtos         (mapv ->uuid produtos)
-   :status           "em-preparo"})
+   :status           "pronto"})
 

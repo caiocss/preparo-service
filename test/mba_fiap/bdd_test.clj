@@ -27,9 +27,8 @@
   {:scene/step "I insert a new preparo with status em preparo"}
   [pedido]
   (let [repository (get @system/system-state [:mba-fiap.repository.repository/repository :repository/preparo])
-        preparo (preparo.service/criar-preparo repository {:id-pedido (:id pedido)
-                                                           :id-cliente (:id-cliente pedido)
-                                                           :status "em-preparo"
+        preparo (preparo.service/criar-preparo repository {:id-cliente (:id-cliente pedido)
+                                                           :status "pronto"
                                                            :numero-do-pedido (:numero-do-pedido pedido)
                                                            :produtos (:produtos pedido)})]
     preparo))
