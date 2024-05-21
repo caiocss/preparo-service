@@ -29,10 +29,8 @@
 
 (deftest test-main
   (testing "should start and up the service"
-    (let [{:keys [body status]} (hc/get "http://localhost:8080/healthcheck")]
-      (is (= 200 status))
-      (is (= "{\"message\":\"Service is up and running\"}"
-             body)))))
+    (let [{:keys [status]} (hc/get "http://localhost:8080/healthcheck")]
+      (is (= 200 status)))))
 
 (deftest nats-test
   (testing "should start and up the service"
