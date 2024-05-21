@@ -4,11 +4,13 @@
 
 
 (deftest test-pedido->novo-preparo
-  (let [mock-pedido {:id-cliente "236d3142-e4a7-4c23-976c-34454d8db1fc"
+  (let [mock-pedido {:id               (str (random-uuid))
+                     :id-cliente       "236d3142-e4a7-4c23-976c-34454d8db1fc"
                      :numero-do-pedido "123"
-                     :produtos ["product1-uuid" "product2-uuid" "product3-uuid"]}
+                     :produtos         ["product1-uuid" "product2-uuid" "product3-uuid"]}
         result (use-cases.preparo/pedido->novo-preparo mock-pedido)]
     (is (= (:id-cliente result) (parse-uuid (:id-cliente mock-pedido))))
+    (is (= (:id-pedido result) (parse-uuid (:id mock-pedido))))
     (is (= (:numero-do-pedido result) (:numero-do-pedido mock-pedido)))
     (is (= (:produtos result) (mapv parse-uuid (:produtos mock-pedido))))
     (is (= (:status result) "pronto"))))

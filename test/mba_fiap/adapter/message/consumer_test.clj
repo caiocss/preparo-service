@@ -44,7 +44,10 @@
   (prop/for-all [pedido (mg/generator pedido/Pedido)]
     (let [store (atom {})
           nats-messages (atom {})]
-      (handler-novo-preparo {:repository/preparo (mock-repository store)} (mock-nats nats-messages) (str pedido))
+      (handler-novo-preparo {:repository/preparo (mock-repository store)
+                             :topic/novo-status "status"}
+                            (mock-nats nats-messages)
+                            (str pedido))
       (and (= (:id-cliente pedido)
               (:id-cliente (edn/read-string (first (get @nats-messages "status")))))
            (= (:numero-do-pedido pedido)

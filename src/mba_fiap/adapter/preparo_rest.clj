@@ -4,10 +4,11 @@
     [io.pedestal.http.ring-middlewares :as middlewares]))
 
 (defn health-check
-  [_]
+  [request]
   {:status 200
    :headers {"Content-Type" "application/json"}
-   :body {:message "Service is up and running"}})
+   :body {:message "Service is up and running"
+          :system  (str request)}})
 
 (defn preparo-routes
   []
