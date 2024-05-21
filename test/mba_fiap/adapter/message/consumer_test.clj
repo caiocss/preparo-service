@@ -51,7 +51,7 @@
               (:numero-do-pedido (edn/read-string (first (get @nats-messages "status")))))
            (= (:produtos pedido)
               (:produtos (edn/read-string (first (get @nats-messages "status")))))
-           (= "em-preparo"
+           (= "pronto"
               (:status (edn/read-string (first (get @nats-messages "status")))))))))
 
 (defspec handler-novo-preparo-error-test 10

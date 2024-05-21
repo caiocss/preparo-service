@@ -28,7 +28,7 @@
   [pedido]
   (let [repository (get @system/system-state [:mba-fiap.repository.repository/repository :repository/preparo])
         preparo (preparo.service/criar-preparo repository {:id-cliente (:id-cliente pedido)
-                                                           :status "em-preparo"
+                                                           :status "pronto"
                                                            :numero-do-pedido (:numero-do-pedido pedido)
                                                            :produtos (:produtos pedido)})]
     preparo))

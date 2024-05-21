@@ -11,4 +11,4 @@
     (is (= (:id-cliente result) (parse-uuid (:id-cliente mock-pedido))))
     (is (= (:numero-do-pedido result) (:numero-do-pedido mock-pedido)))
     (is (= (:produtos result) (mapv parse-uuid (:produtos mock-pedido))))
-    (is (= (:status result) "em-preparo"))))
+    (is (= (:status result) "pronto"))))
