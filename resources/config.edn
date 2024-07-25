@@ -22,7 +22,7 @@
                          :datasource #ig/ref :mba-fiap.datasource.postgres/db}}
 
  [:mba-fiap.adapter.nats/nats :nats/nats]
- {:app-name          "preparo-service"
+ {:app-name          #or [#env NATS_APP_NAME "preparo-service"]
   :url               #or [#env NATS_URL "nats://66.51.121.86:4222"]
   :subjects-handlers {#or [#env NOVO_PREPARO_TOPIC "preparo-service.*"] #ig/ref :consumer/novo-preparo}}
 
@@ -44,7 +44,7 @@
                          :dev     false}
 
   :app-context {:migrations         #ig/ref :mba-fiap.datasource.migratus/migratus
-                :nats/config       {:app-name          "preparo-service"
+                :nats/config       {:app-name          #or [#env NATS_APP_NAME "preparo-service"]
                                     :url               #or [#env NATS_URL "nats://66.51.121.86:4222"]
                                     :subjects-handlers {#or [#env NOVO_PREPARO_TOPIC "preparo-service.*"] #ig/ref :consumer/novo-preparo}
                                     :publish-topic #or [#env NEW_STATUS_TOPIC "status"]
