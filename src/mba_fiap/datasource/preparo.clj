@@ -1,23 +1,27 @@
 (ns mba-fiap.datasource.preparo
   (:require
     [honey.sql :as hs]
-    [next.jdbc :as jdbc]
-    [mba-fiap.repository.repository :as repository]))
+    [mba-fiap.repository.repository :as repository]
+    [next.jdbc :as jdbc]))
 
 
 (defrecord PreparoDatasource
   [connection]
 
   repository/Repository
-  (criar [_ preparo]
+
+  (criar
+    [_ preparo]
     (jdbc/execute!
       connection
       (hs/format {:insert-into :preparo
-                  :values  [{:numero-do-pedido (:numero-do-pedido preparo)
+                  :values  [{:id-pedido (:id-pedido preparo)
+                             :numero-do-pedido (:numero-do-pedido preparo)
                              :produtos         [:array (:produtos preparo)]
                              :id-cliente       (:id-cliente preparo)
                              :status           (:status preparo)}]})
       {:return-keys true}))
+
 
   (buscar
     [_ id]
@@ -26,6 +30,7 @@
           :where  [:= :id id]}
          hs/format
          (jdbc/execute-one! connection)))
+
 
   (listar
     [_ q]
@@ -36,6 +41,7 @@
       hs/format
       (jdbc/execute! connection)))
 
+
   (atualizar
     [_ data]
     (jdbc/execute!
@@ -45,11 +51,14 @@
                   :where [:= :id (:id data)]})
       {:return-keys true}))
 
-  (remover [_ id]
+
+  (remover
+    [_ id]
     (->> {:delete-from :preparo
           :where [[:= :id id]]}
          hs/format
          (jdbc/execute-one! connection))))
+
 
 (defmethod repository/make-repository :preparo
   [{:keys [connection]}]
