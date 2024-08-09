@@ -10,63 +10,52 @@ Download from https://github.com/mba-fiap/preparo-service
 
 ## Usage
 
-FIXME: explanation
+### Dev mode
 
-Run the project directly, via `:exec-fn`:
+To run in dev mode, you will need the clojure cli
+in your environment this could be access [here](https://clojure.org/guides/install_clojure).
 
-    $ clojure -X:run-x
-    Hello, Clojure!
+After the cli installed in your system, we need to replicate the environment
+variables in `.env` file. To do that, you can copy the `.env.example`
+file and rename it to `.env`.
 
-Run the project, overriding the name to be greeted:
+```bash
+cp .env.example .env
+```
 
-    $ clojure -X:run-x :name '"Someone"'
-    Hello, Someone!
+Also, in the terminal that you will run the application we can set the
+environment variables with the following command:
 
-Run the project directly, via `:main-opts` (`-m mba-fiap.preparo-service`):
+```bash
+set -a && source .env
+```
 
-    $ clojure -M:run-m
-    Hello, World!
+Then, you can run the following command to start the application:
 
-Run the project, overriding the name to be greeted:
+```bash
+clj -A:dev:test
+```
 
-    $ clojure -M:run-m Via-Main
-    Hello, Via-Main!
+This will run the project with the dev and test profiles.
 
-Run the project's tests (they'll fail until you edit them):
+In the repl, you can run `(go)` to start the application.
 
-    $ clojure -T:build test
+### Test
 
-Run the project's CI pipeline and build an uberjar (this will fail until you edit the tests to pass):
+We can run the tests with the following command:
 
-    $ clojure -T:build ci
+```bash
+clj -X:test
+```
 
-This will produce an updated `pom.xml` file with synchronized dependencies inside the `META-INF`
-directory inside `target/classes` and the uberjar in `target`. You can update the version (and SCM tag)
-information in generated `pom.xml` by updating `build.clj`.
+This will run all the tests of the project and will export a coverage report.
 
-If you don't want the `pom.xml` file in your project, you can remove it. The `ci` task will
-still generate a minimal `pom.xml` as part of the `uber` task, unless you remove `version`
-from `build.clj`.
+To run the cucumber tests, we can run the following command:
 
-Run that uberjar:
+```bash
+clj -M:test:cucumber -g ./test/mba_fiap/ ./test/resources/
+```
 
-    $ java -jar target/preparo-service-0.1.0-SNAPSHOT.jar
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 

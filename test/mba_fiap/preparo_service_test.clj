@@ -8,14 +8,6 @@
             [mba-fiap.system :as system]
             [mba-fiap.repository.repository]))
 
-(defn postgre-fixture [f]
-  (let [pg-container (system/start-pg-container)]
-    (try
-      (f)
-      (catch Exception e
-        (prn e))
-      (finally (system/stop-pg-container)))))
-
 (defn system-fixture [f]
   (let [_system (system/system-start)]
     (try
@@ -25,7 +17,7 @@
       (finally (system/system-stop)))))
 
 
-(use-fixtures :once (join-fixtures [postgre-fixture system-fixture]))
+(use-fixtures :once system-fixture)
 
 (deftest test-main
   (testing "should start and up the service"
